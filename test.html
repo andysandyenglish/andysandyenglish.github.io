@@ -80,7 +80,7 @@ function wait(){
   var q=S.q;
   if(q.start){S.off=q.now-Date.now();return test();}
   app.innerHTML='<div class="box"><p class="big">'+esc(S.name)+', 준비됐어요 👍</p><p class="muted">선생님이 시작을 누르면 문제가 열려요.<br>잠깐만 기다려 주세요.</p></div>';
-  clearInterval(S.poll);S.poll=setInterval(function(){api('quizState',[q.id]).then(function(s){if(s&&s.start){clearInterval(S.poll);S.q=s;S.off=s.now-Date.now();test();}}).catch(function(){});},3000);
+  clearInterval(S.poll);S.poll=setInterval(function(){api('quizState',[q.id]).then(function(s){if(s&&s.start){clearInterval(S.poll);S.q=s;S.off=s.now-Date.now();test();}}).catch(function(){});},6000);
 }
 function key(){return 'qz_'+S.q.id+'_'+S.q.sd+'_'+S.name;}
 function test(){
