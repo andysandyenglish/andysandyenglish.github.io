@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>앤디샌디영어 과제</title>
+<style>body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;margin:0;background:#f4f6f8;color:#222}
+.top{background:#0b7a75;color:#fff;padding:18px 16px}.top h1{margin:0;font-size:20px}.msg{padding:24px 16px;font-size:15px;color:#555;line-height:1.7}</style>
+</head><body>
+<div class="top"><h1>앤디샌디영어</h1></div><div class="msg" id="msg">과제를 불러오는 중이에요… ⏳</div>
+<script>
+var EXEC='https://script.google.com/macros/s/AKfycbz8yybz4La7mAmek3L0mMIwpI_j92Qpe0r9V9XVpyb2FomZcuEeFhadB4IzOngQQVb1mA/exec';
+var SHIM="<script>(function(){var EXEC='"+EXEC+"';function mk(){var s=null,f=null,o={withSuccessHandler:function(h){s=h;return o;},withFailureHandler:function(h){f=h;return o;}};['studentPage','studentCheck','studentExcuse'].forEach(function(n){o[n]=function(){var a=[].slice.call(arguments),ss=s,ff=f;fetch(EXEC,{method:'POST',credentials:'omit',body:JSON.stringify({fn:n,args:a})}).then(function(r){return r.json();}).then(function(j){if(!j||j.err)throw new Error(j&&j.err||'x');if(ss)ss(j.res);}).catch(function(e){if(ff)ff(e);});};});return o;}window.google={script:{}};Object.defineProperty(window.google.script,'run',{get:mk});})();<\/script>";
+function fail(){document.getElementById('msg').innerHTML='과제를 불러오지 못했어요.<br>잠시 뒤 다시 열어 주세요. 계속 안 되면 학원으로 알려 주세요.<br><br><button onclick="location.reload()" style="font-size:15px;padding:8px 14px;border-radius:8px;border:1px solid #0b7a75;background:#fff;color:#0b7a75">다시 불러오기</button>';}
+(function(){
+  var code=(new URLSearchParams(location.search)).get('s')||'';
+  if(!code){document.getElementById('msg').textContent='링크가 맞지 않습니다. 학원으로 문의해 주세요.';return;}
+  fetch(EXEC+'?api=boot&s='+encodeURIComponent(code),{credentials:'omit'})
+   .then(function(r){return r.json();})
+   .then(function(j){
+     if(!j||!j.html){fail();return;}
+     var h=j.html.replace(/<base target="_top">/i,'<base target="_top"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+(j.title||'앤디샌디영어').replace(/</g,'')+'</title>'+SHIM);
+     document.open();document.write(h);document.close();
+   }).catch(fail);
+})();
+</script>
+</body></html>
