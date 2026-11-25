@@ -5,7 +5,7 @@
 <style>body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;margin:0;background:#f4f6f8;color:#222}
 .top{background:#0b7a75;color:#fff;padding:18px 16px}.top h1{margin:0;font-size:20px}.msg{padding:24px 16px;font-size:15px;color:#555;line-height:1.7}</style>
 </head><body>
-<div class="top"><h1>앤디샌디영어</h1></div><div class="msg" id="msg">과제를 불러오는 중이에요… ⏳</div>
+<div class="top"><h1>앤디샌디영어</h1></div><div class="msg" id="msg">과제를 불러오는 중이에요… ⏳<br><span style="font-size:13px;color:#888">처음 열 때 10~20초쯤 걸릴 수 있어요. 잠시만 기다려 주세요.</span></div>
 <script>
 var EXEC='https://script.google.com/macros/s/AKfycbz8yybz4La7mAmek3L0mMIwpI_j92Qpe0r9V9XVpyb2FomZcuEeFhadB4IzOngQQVb1mA/exec';
 var SHIM="<script>(function(){var EXEC='"+EXEC+"';function mk(){var s=null,f=null,o={withSuccessHandler:function(h){s=h;return o;},withFailureHandler:function(h){f=h;return o;}};['studentPage','studentCheck','studentExcuse'].forEach(function(n){o[n]=function(){var a=[].slice.call(arguments),ss=s,ff=f;fetch(EXEC,{method:'POST',credentials:'omit',body:JSON.stringify({fn:n,args:a})}).then(function(r){return r.json();}).then(function(j){if(!j||j.err)throw new Error(j&&j.err||'x');if(ss)ss(j.res);}).catch(function(e){if(ff)ff(e);});};});return o;}window.google={script:{}};Object.defineProperty(window.google.script,'run',{get:mk});})();<\/script>";
