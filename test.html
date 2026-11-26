@@ -126,10 +126,15 @@ function show(r){
   var h='<div class="box" style="text-align:center"><p class="muted">'+esc(S.name)+'의 점수</p><div class="score">'+r.score+'점</div><p class="muted">'+r.n+'문제 중 '+r.right+'개 맞음</p>'+
     (r.pass?'<p class="pass">🎉 통과! 90점 넘었어요</p>':'<p class="fail">90점까지 조금 남았어요 💪</p>'+(r.home?'<p class="muted">다음 수업까지 집에서 <b>'+esc(r.home)+'</b>를 매일 봐요.<br>90점이 넘으면 남은 날은 안 해도 돼요.</p>':''))+'</div>';
   h+='<div class="box"><p class="big">틀린 문제</p>'+(r.wrong.length?r.wrong.map(function(i){return '<span class="wr">'+i+'번</span>';}).join(''):'<p class="pass">하나도 안 틀렸어요! 👏</p>')+'</div>';
-  if(r.wrong.length){h+=r.open&&r.keys?'<div class="box"><p class="big">정답</p>'+r.keys.map(function(k){return '<div class="key"><b>'+k.no+'번</b> → '+esc(/^\d$/.test(k.ans)?C(+k.ans):k.ans)+'</div>';}).join('')+'</div>':'<div class="box muted">선생님이 정답을 공개하면 여기에 정답이 나와요.<br>그동안 틀린 문제를 다시 풀어 보세요.</div>';}
+  if(r.open&&r.all){
+    h+='<div class="box"><p class="big">전체 문제 <span class="muted" style="font-size:15px">✔ 정답 · ⭕ 맞음 · ❌ 틀림</span></p><p><button class="btn" id="fa">전체 보기</button> <button class="btn line" id="fw">틀린 것만 보기</button></p><div id="al">'+r.all.map(function(x){return '<div class="ar" data-ok="'+(x.ok?1:0)+'" style="padding:10px 8px;border-bottom:1px solid #e5e7eb;font-size:18px;line-height:1.7'+(x.ok?'':';background:#fdecea;border-radius:8px')+'"><b>'+x.no+'번</b> '+(x.ok?'⭕':'❌')+(x.q?'<div style="font-size:16px;color:#333;margin:2px 0 4px">'+esc(x.q).replace(/\n/g,'<br>')+'</div>':' ')+'<div>✔ 정답 <b>'+esc(x.ans)+'</b>'+(x.ok?'':' <span class="fail">· 내 답 '+esc(x.mine)+'</span>')+'</div></div>';}).join('')+'</div></div>';
+  }else if(r.wrong.length){h+=r.open&&r.keys?'<div class="box"><p class="big">정답</p>'+r.keys.map(function(k){return '<div class="key"><b>'+k.no+'번</b> → '+esc(/^\d$/.test(k.ans)?C(+k.ans):k.ans)+'</div>';}).join('')+'</div>':'<div class="box muted">선생님이 정답을 공개하면 여기에 전체 문제와 정답이 나와요.<br>그동안 틀린 문제를 다시 풀어 보세요.</div>';}
+  else if(!r.open)h+='<div class="box muted">선생님이 정답을 공개하면 여기에 전체 문제와 정답이 나와요.</div>';
   h+='<div class="box muted" style="text-align:center">끝났으면 태블릿을 내려놓고 기다려 주세요.</div>';
   app.innerHTML=h;window.scrollTo(0,0);
-  clearInterval(S.poll);if(r.wrong.length&&!r.open)S.poll=setInterval(function(){api('quizCheck',[S.q.id,S.name]).then(function(x){if(x&&x.open){clearInterval(S.poll);show(x);}}).catch(function(){});},10000);
+  var fa=document.getElementById('fa'),fw=document.getElementById('fw');
+  if(fa&&fw){var vw=function(only){[].forEach.call(document.querySelectorAll('#al .ar'),function(el){el.style.display=only&&el.getAttribute('data-ok')==='1'?'none':'';});fa.className='btn'+(only?' line':'');fw.className='btn'+(only?'':' line');};fa.onclick=function(){vw(false);};fw.onclick=function(){vw(true);};}
+  clearInterval(S.poll);if(!r.open)S.poll=setInterval(function(){api('quizCheck',[S.q.id,S.name]).then(function(x){if(x&&x.open){clearInterval(S.poll);show(x);}}).catch(function(){});},10000);
 }
 
 /* ───── 선생님 ───── */
